@@ -116,48 +116,48 @@ connection.connect(function (err) {
             )
     }
 
-    // roles
-    function addEmployee() {
+    // // roles
+    function addRole() {
         inquirer.prompt([
             {
                 type: "input",
-                name: "firstName",
-                message: "What is the employee's first name?",
+                name: "id",
+                message: "What is the employee's id?",
             },
             {
                 type: "input",
-                name: "lastName",
-                message: "What is the employee's last name?",
+                name: "title",
+                message: "What is the employee's title?",
             },
             {
                 type: "input",
-                name: "roleID",
-                message: "What is the employee's ID?",
+                name: "salary",
+                message: "What is the employee's salary?",
             },
             {
                 type: "input",
-                name: "managerID",
-                message: "What is the employee's manager's ID?",
+                name: "departmentID",
+                message: "What is the employee's department ID?",
             }
         ])
             .then(function (answers) {
-                var q = `insert into employees (first_name, last_name, role_id, manager_id) values ("${answers.firstName}", "${answers.lastName}", ${answers.roleID}, ${answers.managerID})`
+                var q = `insert into employees (id, title, salary, department_id) values ("${answers.id}", "${answers.title}", ${answers.salary}, ${answers.deparmentID})`
                 console.log(q);
                 connection.query(q, function (error, results, fields) {
                     if (error) throw error;
-                    console.log("employee added!");
+                    console.log("role added!");
                     start()
                 });
             })
     }
-    function viewAllEmployees() {
-        connection.query('Select * from employees', function (error, results, fields) {
+    function viewAllRoles() {
+        connection.query('Select * from role', function (error, results, fields) {
             if (error) throw error;
             console.table(results);
             start()
         });
     }
-    function removeEmployee() {
+    function removeRole() {
         inquirer.prompt([
             {
                 type: "input",
@@ -168,11 +168,11 @@ connection.connect(function (err) {
 
             .then(function (answers) {
                 console.log(answers.id)
-                var q = `delete from employees where id = ${answers.id};`
+                var q = `delete from roles where id = ${answers.id};`
                 console.log(q);
                 connection.query(q, function (error, results, fields) {
                     if (error) throw error;
-                    console.log("employee added!");
+                    console.log("role added!");
                     start()
                 });
             }
