@@ -4,7 +4,7 @@ var mysql = require("mysql")
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Earthad927!',
+    password: 'password',
     database: 'employeedb'
 });
 
@@ -25,7 +25,7 @@ connection.connect(function (err) {
                 name: "userChoice",
                 message: "What would you like to do?",
                 choices: [
-                    "Add employee", "View employee", "Remove employee", "Add department", "View department", "Remove department"
+                    "Add employee", "View employee", "Remove employee", "Add department", "View department", "Remove department", "Add role", "View role", "Remove role"
                 ]
             }
         ])
@@ -49,6 +49,15 @@ connection.connect(function (err) {
                 }
                 if (answers.userChoice === "Remove department") {
                     removeDepartment()
+                }
+                if (answers.userChoice === "Add role") {
+                    addRole()
+                }
+                if (answers.userChoice === "View role") {
+                    viewAllRoles()
+                }
+                if (answers.userChoice === "Remove role") {
+                    removeRole()
                 }
             }
             )
@@ -121,11 +130,6 @@ connection.connect(function (err) {
         inquirer.prompt([
             {
                 type: "input",
-                name: "id",
-                message: "What is the employee's id?",
-            },
-            {
-                type: "input",
                 name: "title",
                 message: "What is the employee's title?",
             },
@@ -141,7 +145,7 @@ connection.connect(function (err) {
             }
         ])
             .then(function (answers) {
-                var q = `insert into employees (id, title, salary, department_id) values ("${answers.id}", "${answers.title}", ${answers.salary}, ${answers.deparmentID})`
+                var q = `insert into role (title, salary, department_id) values ("${answers.title}", ${answers.salary}, ${answers.departmentID})`
                 console.log(q);
                 connection.query(q, function (error, results, fields) {
                     if (error) throw error;
@@ -162,17 +166,17 @@ connection.connect(function (err) {
             {
                 type: "input",
                 name: "id",
-                message: "What is the employee id you would like to remove?"
+                message: "What is the role id you would like to remove?"
             },
         ])
 
             .then(function (answers) {
                 console.log(answers.id)
-                var q = `delete from roles where id = ${answers.id};`
+                var q = `delete from role where id = ${answers.id};`
                 console.log(q);
                 connection.query(q, function (error, results, fields) {
                     if (error) throw error;
-                    console.log("role added!");
+                    console.log("role removed!");
                     start()
                 });
             }
